@@ -1,29 +1,55 @@
-# Building a Remote MCP Server on Cloudflare (Without Auth)
+# WebforAI Text Extractor - MCP Server
 
-This example allows you to deploy a remote MCP server that doesn't require authentication on Cloudflare Workers. 
+A Cloudflare Workers-based Model Context Protocol (MCP) server that extracts plain text from web pages using [WebforAI](https://webforai.dev/).
 
-## Get started: 
+## 🌟 What is WebforAI?
 
-[![Deploy to Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/ai/tree/main/demos/remote-mcp-authless)
+[WebforAI](https://webforai.dev/) is a powerful library designed to make web content accessible to AI models. It provides tools to:
 
-This will deploy your MCP server to a URL like: `remote-mcp-server-authless.<your-account>.workers.dev/sse`
+- Convert HTML to clean, structured Markdown
+- Extract meaningful content from web pages
+- Process tables, links, and images intelligently
+- Prepare web content for AI consumption
 
-Alternatively, you can use the command line below to get the remote MCP Server created on your local machine:
-```bash
-npm create cloudflare@latest -- my-mcp-server --template=cloudflare/ai/demos/remote-mcp-authless
-```
+This MCP server leverages WebforAI's capabilities to extract plain text from any web page URL, making it easy to feed web content into AI models through the Model Context Protocol.
 
-## Customizing your MCP Server
+## 📋 Features
 
-To add your own [tools](https://developers.cloudflare.com/agents/model-context-protocol/tools/) to the MCP server, define each tool inside the `init()` method of `src/index.ts` using `this.server.tool(...)`. 
+- **Simple API**: Extract text from any web page with a single API call
+- **Clean Output**: Receive well-formatted Markdown text without HTML noise
+- **Error Handling**: Robust error handling for failed requests
+- **Cloudflare Workers**: Serverless deployment with global distribution
+- **MCP Compatible**: Works with any MCP client like Claude Desktop or Cloudflare AI Playground
 
-## Available Tools
+## 🚀 Getting Started
 
-This MCP server includes the following tool:
+### Deploy to Cloudflare Workers
 
-1. `extractWebPageText` - Extract plain text from a web page URL
+[![Deploy to Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/yutakobayashidev/webforai-mcp-server)
 
-### Using the Web Page Text Extraction Tool
+This will deploy your MCP server to a URL like: `webforai-mcp-server.<your-account>.workers.dev/sse`
+
+### Local Development
+
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/yutakobayashidev/webforai-mcp-server.git
+   cd webforai-mcp-server
+   ```
+
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+3. Start the development server:
+   ```bash
+   pnpm dev
+   ```
+
+4. Your server will be available at `http://localhost:8787`
+
+## 🔧 Using the Text Extraction Tool
 
 The `extractWebPageText` tool accepts a URL to a web page and returns the extracted text content in markdown format:
 
@@ -33,34 +59,50 @@ The `extractWebPageText` tool accepts a URL to a web page and returns the extrac
 }
 ```
 
-## Connect to Cloudflare AI Playground
+The response will contain the extracted text in Markdown format, with:
+- Links converted to plain text
+- Tables converted to plain text
+- Images hidden
 
-You can connect to your MCP server from the Cloudflare AI Playground, which is a remote MCP client:
+## 🔌 Connecting to MCP Clients
 
-1. Go to https://playground.ai.cloudflare.com/
-2. Enter your deployed MCP server URL (`remote-mcp-server-authless.<your-account>.workers.dev/sse`)
-3. You can now use your MCP tools directly from the playground!
+### Cloudflare AI Playground
 
-## Connect Claude Desktop to your MCP server
+1. Go to [Cloudflare AI Playground](https://playground.ai.cloudflare.com/)
+2. Enter your deployed MCP server URL (`webforai-mcp-server.<your-account>.workers.dev/sse`)
+3. You can now use your text extraction tool directly from the playground!
 
-You can also connect to your remote MCP server from local MCP clients, by using the [mcp-remote proxy](https://www.npmjs.com/package/mcp-remote). 
+### Claude Desktop
 
-To connect to your MCP server from Claude Desktop, follow [Anthropic's Quickstart](https://modelcontextprotocol.io/quickstart/user) and within Claude Desktop go to Settings > Developer > Edit Config.
+To connect to your MCP server from Claude Desktop:
 
-Update with this configuration:
+1. Follow [Anthropic's Quickstart](https://modelcontextprotocol.io/quickstart/user)
+2. In Claude Desktop go to Settings > Developer > Edit Config
+3. Update with this configuration:
 
 ```json
 {
   "mcpServers": {
-    "calculator": {
+    "webforaiExtractor": {
       "command": "npx",
       "args": [
         "mcp-remote",
-        "http://localhost:8787/sse"  // or remote-mcp-server-authless.your-account.workers.dev/sse
+        "http://localhost:8787/sse"  // or webforai-mcp-server.your-account.workers.dev/sse
       ]
     }
   }
 }
 ```
 
-Restart Claude and you should see the tools become available.    
+4. Restart Claude and you should see the text extraction tool become available
+
+## 📚 Learn More
+
+- [WebforAI Documentation](https://webforai.dev/docs)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
+- [Cloudflare Workers](https://developers.cloudflare.com/workers/)
+- [Cloudflare AI](https://developers.cloudflare.com/ai/)
+
+## 📄 License
+
+MIT       
