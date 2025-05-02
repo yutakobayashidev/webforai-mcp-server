@@ -1,6 +1,8 @@
 import { McpAgent } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { htmlToMarkdown } from "webforai";
+import { loadHtml } from "webforai/loaders/playwright";
 
 // Define our MCP agent with tools
 export class MyMCP extends McpAgent {
@@ -11,13 +13,9 @@ export class MyMCP extends McpAgent {
 
 	async init() {
 		// Simple addition tool
-		this.server.tool(
-			"add",
-			{ a: z.number(), b: z.number() },
-			async ({ a, b }) => ({
-				content: [{ type: "text", text: String(a + b) }],
-			})
-		);
+		this.server.tool("add", { a: z.number(), b: z.number() }, async ({ a, b }) => ({
+			content: [{ type: "text", text: String(a + b) }],
+		}));
 
 		// Calculator tool with multiple operations
 		this.server.tool(
@@ -53,7 +51,45 @@ export class MyMCP extends McpAgent {
 						break;
 				}
 				return { content: [{ type: "text", text: String(result) }] };
-			}
+			},
+		);
+
+		this.server.tool(
+			"extractWebPageText",
+			{
+				url: z.string().url(),
+			},
+			async ({ url }) => {
+				try {
+					const html = await loadHtml(url);
+
+					const markdown = htmlToMarkdown(html, {
+						baseUrl: url,
+						linkAsText: true, // Convert links to plain text
+						tableAsText: true, // Convert tables to plain text
+						hideImage: true, // Hide images
+					});
+
+					return {
+						content: [
+							{
+								type: "text",
+								text: markdown,
+							},
+						],
+					};
+				} catch (error) {
+					const errorMessage = error instanceof Error ? error.message : String(error);
+					return {
+						content: [
+							{
+								type: "text",
+								text: `Error extracting text from ${url}: ${errorMessage}`,
+							},
+						],
+					};
+				}
+			},
 		);
 	}
 }

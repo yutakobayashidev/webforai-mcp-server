@@ -17,6 +17,24 @@ npm create cloudflare@latest -- my-mcp-server --template=cloudflare/ai/demos/rem
 
 To add your own [tools](https://developers.cloudflare.com/agents/model-context-protocol/tools/) to the MCP server, define each tool inside the `init()` method of `src/index.ts` using `this.server.tool(...)`. 
 
+## Available Tools
+
+This MCP server includes the following tools:
+
+1. `add` - Simple addition tool
+2. `calculate` - Calculator tool with multiple operations
+3. `extractWebPageText` - Extract plain text from a web page URL
+
+### Using the Web Page Text Extraction Tool
+
+The `extractWebPageText` tool accepts a URL to a web page and returns the extracted text content in markdown format:
+
+```json
+{
+  "url": "https://example.com/page"
+}
+```
+
 ## Connect to Cloudflare AI Playground
 
 You can connect to your MCP server from the Cloudflare AI Playground, which is a remote MCP client:
@@ -47,4 +65,4 @@ Update with this configuration:
 }
 ```
 
-Restart Claude and you should see the tools become available. 
+Restart Claude and you should see the tools become available.  
