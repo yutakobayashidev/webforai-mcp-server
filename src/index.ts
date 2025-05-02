@@ -2,7 +2,6 @@ import { McpAgent } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { htmlToMarkdown } from "webforai";
-import { loadHtml } from "webforai/loaders/playwright";
 
 // Define our MCP agent with tools
 export class MyMCP extends McpAgent {
@@ -61,7 +60,11 @@ export class MyMCP extends McpAgent {
 			},
 			async ({ url }) => {
 				try {
-					const html = await loadHtml(url);
+					const response = await fetch(url);
+					if (!response.ok) {
+						throw new Error(`Failed to fetch URL: ${response.status} ${response.statusText}`);
+					}
+					const html = await response.text();
 
 					const markdown = htmlToMarkdown(html, {
 						baseUrl: url,
