@@ -19,11 +19,9 @@ To add your own [tools](https://developers.cloudflare.com/agents/model-context-p
 
 ## Available Tools
 
-This MCP server includes the following tools:
+This MCP server includes the following tool:
 
-1. `add` - Simple addition tool
-2. `calculate` - Calculator tool with multiple operations
-3. `extractWebPageText` - Extract plain text from a web page URL
+1. `extractWebPageText` - Extract plain text from a web page URL
 
 ### Using the Web Page Text Extraction Tool
 
@@ -65,4 +63,4 @@ Update with this configuration:
 }
 ```
 
-Restart Claude and you should see the tools become available.  
+Restart Claude and you should see the tools become available.    
