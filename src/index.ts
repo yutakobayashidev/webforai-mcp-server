@@ -6,7 +6,7 @@ import { htmlToMarkdown } from "webforai";
 // Define our MCP agent with tools
 export class MyMCP extends McpAgent {
 	server = new McpServer({
-		name: "Authless Calculator",
+		name: "WebforAI Text Extractor",
 		version: "1.0.0",
 	});
 
