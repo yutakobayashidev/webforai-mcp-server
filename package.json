@@ -11,6 +11,7 @@
     "cf-typegen": "wrangler types"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@cloudflare/workers-types": "^4.20250430.0",
     "typescript": "^5.5.2",
     "wrangler": "^4.14.1"
