@@ -24,6 +24,14 @@ export class MyMCP extends McpAgent {
 							`Failed to fetch URL: ${response.status} ${response.statusText}`,
 						);
 					}
+
+					const contentType = response.headers.get("content-type") || "";
+					if (!contentType.includes("text/html")) {
+						throw new Error(
+							`URL does not return HTML content. Content-Type: ${contentType}`,
+						);
+					}
+
 					const html = await response.text();
 
 					const markdown = htmlToMarkdown(html, {
