@@ -98,7 +98,7 @@ To connect to your MCP server from Claude Desktop:
 
 ## 📚 Learn More
 
-- [WebforAI Documentation](https://webforai.dev/docs)
+- [WebforAI Documentation](https://webforai.dev/)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [Cloudflare Workers](https://developers.cloudflare.com/workers/)
 - [Cloudflare AI](https://developers.cloudflare.com/ai/)
